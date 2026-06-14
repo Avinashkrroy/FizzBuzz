@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FizzBuzz Vulnerability Checker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      padding: 20px;
+      width: 400px;
+    }
+    
+    h2 {
+      text-align: center;
+    }
+    
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    
+    .custom-button {
+      background-color: #333333;
+      border: 2px solid #555555;
+      color: #ffffff;
+      padding: 12px 24px;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      font-family: monospace;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .custom-button:hover {
+      color: #a3bffa;
+      border-color: #a3bffa;
+    }
+    
+    .custom-button span {
+      z-index: 1;
+    }
+    
+    .custom-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(0deg, rgba(163,191,250,0) 40%, rgba(163,191,250,1) 50%, rgba(163,191,250,0) 60%);
+      transition: transform 1s linear;
+      transform: translateY(100%);
+      z-index: 0;
+    }
+    
+    .custom-button:hover::before {
+      transform: translateY(-100%);
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: #333333;
+      border-radius: 8px;
+      overflow: hidden;
+      table-layout: fixed;
+    }
+    
+    th, td {
+      padding: 12px;
+      border: 1px solid #555555;
+      text-align: left;
+      color: #ffffff;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    th {
+      background-color: #444444;
+    }
+    
+    tbody tr:nth-child(even) {
+      background-color: #3a3a3a;
+    }
+    
+    td a {
+      color: #ffffff;
+      text-decoration: none;
+    }
+    
+    td a:hover {
+      text-decoration: underline;
+    }
+    #fuzzFormContainer {
+      margin-top: 20px;
+      background-color: #333333;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    #fuzzFormContainer input, 
+    #fuzzFormContainer select,
+    #fuzzFormContainer button {
+      display: block;
+      width: calc(100% - 24px); 
+      margin: 10px auto;
+      padding: 10px;
+      font-size: 14px;
+      border-radius: 8px;
+      border: 1px solid #555555;
+      background-color: #222222;
+      color: #ffffff;
+    }
+
+    #fuzzFormContainer input, 
+    #fuzzFormContainer select {
+      background-color: #222222;
+      border: 1px solid #555555;
+    }
+
+    #fuzzFormContainer button {
+      background-color: #333333;
+      border: 2px solid #555555;
+      cursor: pointer;
+    }
+
+    #fuzzFormContainer button:hover {
+      background-color: #444444;
+      border-color: #666666;
+    }
+
+    #formFields {
+      margin-top: 10px;
+    }
+
+    #addFieldBtn,
+    #submitFuzzBtn {
+      background-color: #444444;
+      border: 2px solid #666666;
+    }
+    
+    #addFieldBtn:hover,
+    #submitFuzzBtn:hover {
+      background-color: #555555;
+      border-color: #777777;
+    }
+  </style>
+</head>
+<body>
+  <h2>Vulnerability Checker</h2>
+  <div class="button-container">
+    <button class="custom-button" id="highlightBtn"><span>Highlight Elements</span></button>
+    <button class="custom-button" id="logRequestsBtn" style="margin-left: 10px;"><span>Log Requests</span></button>
+    <button class="custom-button" id="fuzzBtn" style="margin-left: 10px;"><span>Fuzz</span></button>
+  </div>
+  <div id="fuzzFormContainer" style="display: none; margin-top: 10px;">
+    <input type="text" id="endpointInput" placeholder="Enter Endpoint URL" />
+    <select id="httpMethod">
+      <option value="POST" selected>POST</option>
+      <option value="GET">GET</option>
+      <option value="PUT">PUT</option>
+      <option value="DELETE">DELETE</option>
+    </select>
+    <div id="formFields"></div>
+    <button id="addFieldBtn">Add Field</button>
+    <button id="submitFuzzBtn">Submit</button>
+  </div>
+  <div id="resultsContainer" style="display: none; margin-top: 20px;">
+    <h3>Fuzzing Results</h3>
+    <pre id="results"></pre>
+    <h3>Check your dashboard for detailed vulnerability showcase!</h3>
+  </div>
+  <!-- <div id="fuzzLink">
+    Get link here!
+  </div> -->
+  <table id="requestsTable">
+    <thead>
+      <tr>
+        <th style="width: 70%;">Request</th>
+        <th style="width: 50%;">Type</th>
+        <th style="width: 30%;">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Entries will be added here -->
+    </tbody>
+  </table>
+  <script src="popup.js"></script>
+</body>
+</html>
